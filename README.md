@@ -34,7 +34,8 @@ Note: You may need to install additional packages using the terminal in VScode i
 To Build from source you will have to remove code signing.
 
 1. In `forge.config.js` you need to remove the following lines:
-  - ``` osxSign: {},
+  - ```
+        osxSign: {},
         ...
         certificateFile: 'src/UTcertSelfSign.pfx',
         certificatePassword: process.env.CERTIFICATE_PASSWORD,
