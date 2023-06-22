@@ -3,6 +3,7 @@ const packageJSON = require('./package.json');
 module.exports = {
   packagerConfig: {
     icon: 'src/images/icon/icon',
+    osxSign: {},
   },
   rebuildConfig: {},
   makers: [
