@@ -1,7 +1,7 @@
 {
   "name": "ut-converter",
   "productName": "UT Converter",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "UT Payout converter",
   "main": "src/index.js",
   "scripts": {
