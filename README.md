@@ -12,7 +12,7 @@ Before getting started, ensure that your computer meets the following requiremen
 - Python (with "Add to PATH" option selected during installation)
 - Visual Studio Community (with Node.js, C++ development, and .NET Framework options selected during installation)
 - MacOS:
-- 
+- (Needs further testing on what is needed to install)
 
 ## Installation
 
