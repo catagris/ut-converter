@@ -1,23 +1,44 @@
-# ut-converter
-To prefare enviromant on new computer for Development
-Make sure computer is update (Windows 10)
-Download and install Visual C++ Redistributable Packages for Visual Studio 2013
-Download and install npm from Node.js v18 (Make sure to Check the optional to install Additional Tools), https://nodejs.org/en/download/
-If on Windows Download and install Python. (Make sure to check the box to add to PATH)
-Install Visual Studio Community (On install check Node.JS, C++ development and .Net Framework)
+# UT Converter
 
+This repository contains the UT Converter application. The application is used to prepare the development environment on a new computer.
 
-Install application dependencies:
+## Prerequisites
+
+Before getting started, ensure that your computer meets the following requirements:
+- Operating System: Windows 10
+- Visual C++ Redistributable Packages for Visual Studio 2013
+- Node.js v18 (with Additional Tools option selected during installation)
+- Python (with "Add to PATH" option selected during installation)
+- Visual Studio Community (with Node.js, C++ development, and .NET Framework options selected during installation)
+
+## Installation
+
+To install the application and its dependencies, follow these steps:
+
+1. Install the application dependencies:
 npm install --save-dev @electron-forge/cli
 npm exec --package=@electron-forge/cli -c "electron-forge import"
 npm install
-
-Then to run the app for testing
+2. To run the app for testing, use the following command:
 npm start
 
-You may need to install the following packages as well: Install using terminal in VScode. 
+Note: You may need to install additional packages using the terminal in VScode:
 npm install
 
-Setup on a new Dev Computer run:
-npm install --save-dev @electron-forge/cli
-npx electron-forge import
+
+## Contributing
+
+Contributions to this project are welcome! To contribute, please follow these steps:
+- Fork the repository
+- Create a new branch for your feature or bug fix
+- Commit your changes
+- Push your changes to your forked repository
+- Submit a pull request
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Contact
+
+If you have any questions or suggestions, feel free to reach out to the project maintainer.
