@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Covert Uber Ride logs">
+    <meta name="author" content="William Wilkins">
+
+    <script src="./renderer.js"></script>
+    <script src="./vendor/jquery/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <title>UT 자동 변환기</title>
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+      select.form-control {
+        margin: 0 auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#" data-section="converter">UT 자동 변환기</a>
+        <a class="navbar-brand" href="#" data-section="help">도움</a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="converter">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h1 class="mt-5">UT 자동 변환기</h1>
+            <p class="lead">UT 운수사 포털에서 다운받은 보고서를 간략하게 변환해 드립니다.</p>
+            <br>
+            <!--File selection button, selected file output path to terminal-->
+            <input type="file" id="file" name="file" accept=".csv" onchange="selectFile()">
+            <div class="progress d-none">
+              <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: 0%;" id="progress-bar-part1"></div>
+            </div>
+            <br>
+            <br>
+            <!--Button to Start-->
+            <button type="button" class="btn btn-primary startButton mx-auto d-none" id="startButton" onclick="start()" disabled>변환</button>
+            <p id="startButtonMessage" class="text-danger">파일과 두 개의 옵션을 선택해주세요. 그러면 시작 버튼이 활성화됩니다.</p>
+            <!--Button to Download-->
+            <button type="button" class="btn btn-primary restart mx-auto d-none" id="download" onclick="download()" disabled>다운로드</button>
+            <!--Button to Restart-->
+            <button type="button" class="btn btn-primary restart mx-auto d-none" id="reset" onclick="reset()">재시작</button>
+          </div>
+        </div>
+      </div>
+      <div class="help">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h1 class="mt-5">도움</h1>
+            <p>도움이 필요하신 경우, 아래 연락처로 문의 주시기 바랍니다.</p>
+            <br>
+            이메일: ut.franchise@ut.taxi
+            <br>
+            법인 담당자 전용 고객 센터: 02-6953-2975, 02-6953-2978
+            <br>
+            운영 시간: 월요일부터 금요일까지 9시부터 17시까지 운영됩니다.
+            <br>
+            문의 사항이 있으시면 언제든지 연락 주세요. 친절하고 신속하게 도와드리겠습니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  <script>
+    $(document).ready(function() {
+      // Show the Converter section by default
+      $('.converter').show();
+      $('.help').hide();
+
+      // Handle clicks on the navbar links
+      $('.navbar-brand').click(function(event) {
+        event.preventDefault();
+        const section = $(this).data('section');
+        if (section === 'converter') {
+          $('.converter').show();
+          $('.help').hide();
+        } else if (section === 'help') {
+          $('.converter').hide();
+          $('.help').show();
+        }
+      });
+    });
+  </script>
+  </body>
+</html>

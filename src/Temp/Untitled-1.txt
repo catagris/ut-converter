@@ -1,0 +1,91 @@
+db.serialize(() => {
+  db.run(`DROP TABLE IF EXISTS mytable`);
+  const createTableSQL = `CREATE TABLE mytable (${validColumns.map(columnName => `\`${columnName}\` TEXT`).join(', ')})`;
+  db.run(createTableSQL);
+  db.run(`DROP TABLE IF EXISTS myOutput`);
+  db.run("CREATE TABLE myOutput (UUID TEXT PRIMARY KEY, `Trips completed` INTEGER, `Total meter fare` REAL, `Adjusted Fare` REAL, `Total cash paid` REAL, `Service Fee` REAL, `promotion` REAL, `toll fee` REAL, `rowSum` REAL)");
+});
+
+function convert() {
+    const db = new sqlite3.Database('mydatabase.sqlite');
+    
+    const query = `
+        SELECT 
+            "기사님 UUID" as UUID, 
+            SUM(CASE WHEN "설명" = "trip completed order" THEN 1 ELSE 0 END) as "Trips completed",
+            SUM(CASE WHEN "설명" = "trip completed" THEN "수익 : 순수익 : 요금" ELSE 0 END) as "Total meter fare",
+            SUM(CASE WHEN "설명" = "trip fare adjust order" THEN "수익 : 순수익 : 요금" ELSE 0 END) as "Adjusted Fare",
+            SUM(CASE WHEN "설명" = "trip completed" THEN "수익:지급:정산:현금 결제" ELSE 0 END) as "Total cash paid",
+            SUM(CASE WHEN "설명" = "trip completed" THEN "수익:순수익:서비스이용료 (부가가치세 포함)" ELSE 0 END) as "Service Fee",
+            SUM(CASE WHEN "설명" = "trip completed" THEN "수익:순수익:프로모션:퀘스트" ELSE 0 END) as "promotion",
+            SUM(CASE WHEN "설명" = "trip completed" THEN "수익:지급:환불:통행료" ELSE 0 END) as "toll fee",
+            SUM("수익 : 순수익 : 요금") + SUM(CASE WHEN "설명" = "trip completed" THEN "수익:지급:정산:현금 결제" ELSE 0 END) + SUM(CASE WHEN "설명" = "trip completed" THEN "수익:순수익:서비스이용료 (부가가치세 포함)" ELSE 0 END) + SUM(CASE WHEN "설명" = "trip completed" THEN "수익:순수익:프로모션:퀘스트" ELSE 0 END) + SUM(CASE WHEN "설명" = "trip completed" THEN "수익:지급:환불:통행료" ELSE 0 END) as "rowSum"
+        FROM mytable
+        GROUP BY "기사님 UUID"
+    `;
+    
+    db.all(query, (err, rows) => {
+        if (err) {
+            throw err;
+        }
+    
+        // Insert the results into the 'myOutput' table
+        rows.forEach((row) => {
+            db.run(`
+                INSERT INTO myOutput (UUID, \`Trips completed\`, \`Total meter fare\`, \`Adjusted Fare\`, \`Total cash paid\`, \`Service Fee\`, \`promotion\`, \`toll fee\`, \`rowSum\`)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `, [row.UUID, row["Trips completed"], row["Total meter fare"], row["Adjusted Fare"], row["Total cash paid"], row["Service Fee"], row["promotion"], row["toll fee"], row["rowSum"]]);
+        });
+    
+        // Compute the sum of each column
+        db.get(`
+            SELECT 
+                SUM(\`Trips completed\`) as "Trips completed", 
+                SUM(\`Total meter fare\`) as "Total meter fare", 
+                SUM(\`Adjusted Fare\`) as "Adjusted Fare", 
+                SUM(\`Total cash paid\`) as "Total cash paid", 
+                SUM(\`Service Fee\`) as "Service Fee", 
+                SUM(\`promotion\`) as "promotion", 
+                SUM(\`toll fee\`) as "toll fee", 
+                SUM(\`rowSum\`) as "rowSum" 
+            FROM myOutput
+        `, (err, result) => {
+            if (err) {
+                throw err;
+            }
+    
+            // Insert the sum as a new row in the 'myOutput' table
+            db.run(`
+                INSERT INTO myOutput (\`Trips completed\`, \`Total meter fare\`, \`Adjusted Fare\`, \`Total cash paid\`, \`Service Fee\`, \`promotion\`, \`toll fee\`, \`rowSum\`)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            `, [result["Trips completed"], result["Total meter fare"], result["Adjusted Fare"], result["Total cash paid"], result["Service Fee"], result["promotion"], result["toll fee"], result["rowSum"]]);
+        });
+    });
+    db.all('SELECT * FROM myOutput', [], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+  
+      console.log(rows);
+  
+      const totalRows = rows.length;
+      let numProcessedRows = 0;
+  
+      db.each("SELECT * FROM myOutput", [], (err, row) => {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+  
+        numProcessedRows++;
+      }, (err, numTotalRows) => {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+  
+        console.log('Summing complete.');
+      });
+    });
+  }
