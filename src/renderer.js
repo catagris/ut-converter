@@ -3,6 +3,7 @@ const fs = require('fs')
 const sqlite = require('better-sqlite3');
 const XLSX = require('xlsx');
 const path = require('path');
+const { ipcRenderer } = require('electron');
 
 // Shared Variables
 let selectedFileName;
