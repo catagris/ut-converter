@@ -16,11 +16,11 @@ Before getting started, ensure that your computer meets the following requiremen
 To install the application and its dependencies, follow these steps:
 
 1. Install the application dependencies:
-`npm install --save-dev @electron-forge/cli`
-`npm exec --package=@electron-forge/cli -c "electron-forge import"`
-`npm install`
+  `npm install --save-dev @electron-forge/cli`
+  `npm exec --package=@electron-forge/cli -c "electron-forge import"`
+  `npm install`
 2. To run the app for testing, use the following command:
-`npm start`
+  `npm start`
 
 Note: You may need to install additional packages using the terminal in VScode:
 `npm install`
