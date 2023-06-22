@@ -64,28 +64,17 @@
     </div>
     
   <script>
-    $(document).ready(function() {
-      // Show the Converter section by default
-      $('.converter').show();
-      $('.help').hide();
-
-      // Handle clicks on the navbar links
-      $('.navbar-brand').click(function(event) {
-        event.preventDefault();
-        const section = $(this).data('section');
-        if (section === 'converter') {
-          $('.converter').show();
-          $('.help').hide();
-        } else if (section === 'help') {
-          $('.converter').hide();
-          $('.help').show();
-        }
-      });
-    });
+    window.onload = () => {
+      const { ipcRenderer } = require('electron');
+      const version = ipcRenderer.sendSync('get-version');
+      const footer = document.getElementById('footer-text');
+      footer.textContent = `UT LLC Copyright © 2023. Version ${version}`;
+    };
   </script>
-  <footer class="footer">
+  <footer id="footer" style="position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 0); text-align: center;">
     <div class="container">
-      <span class="text-muted">UT LLC Copyright © 2023. Version 2.0.5`</span>
+      <span id="footer-text" class="text-muted"></span>
     </div>
+  </footer>
   </body>
 </html>

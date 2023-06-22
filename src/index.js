@@ -58,6 +58,9 @@ const createWindow = () => {
       selectedValueProcess: selectedValueProcess,
     });
   });
+  ipcMain.on('get-version', (event) => {
+    event.returnValue = app.getVersion();
+  });
 };
 
 // This method will be called when Electron has finished
