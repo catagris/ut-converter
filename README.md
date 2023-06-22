@@ -35,10 +35,10 @@ To Build from source you will have to remove code signing.
 
 1. In `forge.config.js` you need to remove the following lines:
   - ```
-        osxSign: {},
-        ...
-        certificateFile: 'src/UTcertSelfSign.pfx',
-        certificatePassword: process.env.CERTIFICATE_PASSWORD,
+    osxSign: {},
+    ...
+    certificateFile: 'src/UTcertSelfSign.pfx',
+    certificatePassword: process.env.CERTIFICATE_PASSWORD,
     ```
 2. Build the app!
   - `npm run make`
