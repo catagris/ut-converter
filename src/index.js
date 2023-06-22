@@ -1,4 +1,7 @@
 const electron = require("electron")
+require('update-electron-app')({
+  repo: 'https://github.com/catagris/ut-converter',
+})
 const { app, BrowserWindow, ipcMain, dialog, Menu } = electron
 const fs = require('fs')
 const path = require('path');
