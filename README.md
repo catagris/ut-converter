@@ -1,6 +1,9 @@
 # UT Converter
 
-This repository contains the UT Converter application. The application is used to prepare the development environment on a new computer.
+What is it?
+
+
+It is a conversion software for talking Uber Korea's Fleet payout report and making it more human readable. It also makes the columns always appear instead of being dynamic which makes it more compatible with other taxi management software.
 
 ## Prerequisites
 
